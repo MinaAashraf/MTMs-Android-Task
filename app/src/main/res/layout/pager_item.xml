@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_200sdp"
+    android:background="@color/black"
+    android:padding="@dimen/_20sdp">
+
+    <TextView
+        android:id="@+id/frChar"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@drawable/circle"
+        android:elevation="@dimen/_5sdp"
+
+        android:gravity="center"
+        android:text="A"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/clientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:text="Mina Ashraf"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/frChar"
+        app:layout_constraintTop_toTopOf="@id/frChar" />
+
+    <TextView
+        android:id="@+id/dist_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 kms away | 12 mins"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@id/clientName"
+        app:layout_constraintTop_toBottomOf="@id/clientName" />
+
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3.8"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/star_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/star_icon"
+
+        />
+
+    <ImageView
+        android:id="@+id/star_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:src="@drawable/star"
+        app:layout_constraintBottom_toBottomOf="@id/dist_duration"
+        app:layout_constraintRight_toLeftOf="@id/rating"
+        app:layout_constraintTop_toTopOf="@id/clientName"
+
+        />
+
+    <TextView
+        android:id="@+id/destinationAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pickup from:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="@id/frChar"
+        app:layout_constraintTop_toBottomOf="@id/frChar"
+        android:layout_marginTop="@dimen/_15sdp"
+        />
+
+    <Button
+        android:id="@+id/accept_btn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="#DC80DD23"
+        android:fontFamily="@font/mako"
+        android:text="ACCEPT"
+        android:textColor="#fff"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/reject_btn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/reject_btn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:background="#B50404"
+        android:fontFamily="@font/mako"
+        android:text="REJECT"
+        android:textColor="#fff"
+        android:textSize="@dimen/_13ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/accept_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/accept_btn" />
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone: +201245757585"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_12ssp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/frChar"
+        app:layout_constraintTop_toBottomOf="@id/destinationAddress"
+        android:layout_marginTop="@dimen/_15sdp"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time: "
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/_12ssp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/frChar"
+        app:layout_constraintTop_toBottomOf="@id/phone"
+        android:layout_marginTop="@dimen/_10sdp"
+         />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

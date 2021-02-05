@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/colorPrimary"/>
+        </shape>
+    </item>
+
+    <item android:top="1dp" android:left="1dp">
+        <bitmap
+            android:src="@drawable/circle2"
+            android:gravity="center" />
+    </item>
+</layer-list>

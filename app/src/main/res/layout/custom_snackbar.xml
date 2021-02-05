@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_200sdp"
+    android:background="@color/black"
+    android:elevation="@dimen/_5sdp"
+    android:orientation="vertical">
+
+        <com.mtms_task.UI.VerticalViewPager
+            android:id="@+id/requests_pager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp" />
+</LinearLayout>

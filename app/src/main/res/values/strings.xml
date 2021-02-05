@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Delivery On Fire</string>
+    <string name="googleMap_api_key">AIzaSyA9CU1d4YGxdfwcagPdm0lvjZeOpATDvvs</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+</resources>

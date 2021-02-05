@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="Category 1">
+            <menu>
+                <item
+                    android:id="@+id/myRequests"
+                    android:icon="@drawable/truck_icon"
+                    android:title="Requests" />
+
+                <item
+                    android:id="@+id/mypoints"
+                    android:icon="@drawable/points_icon"
+                    android:title="Points" />
+
+                <item
+                    android:id="@+id/myAchievements"
+                    android:icon="@drawable/achievement_icon"
+                    android:title="Achievements" />
+
+
+                <item
+                    android:id="@+id/noti"
+                    android:icon="@drawable/noti_icon"
+                    android:title="Notifications" />
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="Category 2">
+        <menu>
+            <item
+                android:id="@+id/account"
+                android:icon="@drawable/account_icon"
+                android:title="Account" />
+            <item
+                android:id="@+id/feedback"
+                android:icon="@drawable/feedback_icon"
+                android:title="Feedback" />
+        </menu>
+    </item>
+
+
+    <item android:title="Category 3">
+        <menu>
+
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/settings"
+                android:title="Settings" />
+        </menu>
+    </item>
+
+</menu>
