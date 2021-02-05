@@ -352,7 +352,8 @@ Location location = null;
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
         }
-        getLastLocation();
+        else
+            getLastLocation();
     }
 
     //**************************************************************************************************
