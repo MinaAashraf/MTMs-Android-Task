@@ -13,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -71,7 +75,8 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
     ViewPager requestsViewPager;
     private static final String Driver_Id = "d" + (new Random().nextInt(3) + 1);    //generate driver id using random numbers from 1 to 3 ->  d1 : d3
     private static final int LOCATION_PERMISSION_REQUEST = 1;
-    boolean gpsEnabled = false;
+    FusedLocationProviderClient fusedLocationProviderClient;
+
     //**************************************************************************************************
 
     @Override
@@ -165,7 +170,7 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setPadding(0, 400, 0, 1000);      // this row for reposition the zoom button on the map
 
-      checkLocationPermission();
+        checkLocationPermission();         // check location permission to get current location of the user
     }
 
     //**************************************************************************************************
@@ -285,11 +290,10 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
     // check location permission or request user to permit the app to access location
     public void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             checkDeviceGps();
         } else {
-
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST);
@@ -308,11 +312,11 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
             }
         }
     }
-Location location = null;
+
     //**************************************************************************************************
     // get last location from fusedLocationProviderClient object
     private void getLastLocation() {
-        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this
                 , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -322,7 +326,10 @@ Location location = null;
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        updateUi(location);
+                        if (location != null)
+                            updateUi(location);
+                        else
+                             requestLocationUpdates();       // track location until get not null location
                     }
                 });
     }
@@ -330,18 +337,47 @@ Location location = null;
     //**************************************************************************************************
     // put the location cooridinates on the map
     private void updateUi(Location location) {
+
         if (ActivityCompat.checkSelfPermission(this
                 , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(false);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            Toast.makeText(this, "return", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (location != null && mMap != null) {
-            mMap.setMyLocationEnabled(true);
+        if (location != null) {
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.setMyLocationEnabled(true);
             mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Me"));
         }
+
+    }
+
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+
+
+    public void requestLocationUpdates() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(1000);
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+                        updateUi(location);
+                    }
+                }
+            }
+        };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return ;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
     //**************************************************************************************************
@@ -351,8 +387,7 @@ Location location = null;
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
-        }
-        else
+        } else
             getLastLocation();
     }
 
@@ -385,13 +420,8 @@ Location location = null;
         if (requestCode == 0) {
             LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
                 getLastLocation();
             }
-
         }
     }
 }
